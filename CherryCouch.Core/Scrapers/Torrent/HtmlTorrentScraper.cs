@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using CherryCouch.Common.Protocol.Scraper;
+using CherryCouch.Common.Plugins.Providers;
+using CherryCouch.Common.Plugins.Scrapers;
+using CherryCouch.Common.Plugins.Scrapers.Torrent;
 using CherryCouch.Common.Protocol.Search;
 
 namespace CherryCouch.Core.Scrapers.Torrent
 {
-    public class HtmlTorrentScraper : ITorrentScraper
+    public class HtmlTorrentScraper : IHtmlTorrentScraper
     {
         private XmlDocument currentDocument;
+        private IProvider currentProvider;
 
-        public void Load(XmlDocument document)
+        public void Load(IProvider provider, XmlDocument document)
         {
             currentDocument = document;
+            currentProvider = provider;
         }
 
-        public List<TorrentResult> Execute(string mainNodeXPath, IEnumerable<ScrapingRule> rules)
+        public List<TorrentResult> Execute(string mainNodeXPath, IEnumerable<IScrapingRule> rules)
         {
             if(currentDocument == null)
                 throw new InvalidOperationException("need to load document before execution");
@@ -40,7 +44,7 @@ namespace CherryCouch.Core.Scrapers.Torrent
                         var resultProperty = resultType.GetProperty(rule.AssociatedProperty);
                         if (resultProperty != null)
                         {
-                            var value = rule.GetValue(torrentNode);
+                            var value = rule.GetValue(currentProvider, torrentNode);
                             resultProperty.SetValue(result, value, null);
                         }
                     }
@@ -55,7 +59,7 @@ namespace CherryCouch.Core.Scrapers.Torrent
         /// <summary>
         /// Execute only once the rules, in order to fill one search result. Mainly dedicated to detail page scraping.
         /// </summary>
-        public TorrentResult ExecuteSingle(TorrentResult result, IEnumerable<ScrapingRule> rules)
+        public TorrentResult ExecuteSingle(TorrentResult result, IEnumerable<IScrapingRule> rules)
         {
             if (currentDocument == null)
                 throw new InvalidOperationException("need to load document before execution");
@@ -71,7 +75,7 @@ namespace CherryCouch.Core.Scrapers.Torrent
                 var resultProperty = resultType.GetProperty(rule.AssociatedProperty);
                 if (resultProperty != null)
                 {
-                    var value = rule.GetValue(currentDocument);
+                    var value = rule.GetValue(currentProvider, currentDocument);
                     resultProperty.SetValue(result, value, null);
                 }
             }

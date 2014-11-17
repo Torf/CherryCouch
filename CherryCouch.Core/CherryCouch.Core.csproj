@@ -52,13 +52,10 @@
     <Compile Include="Global.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
     <Compile Include="Handlers\SearchHandler.cs" />
+    <Compile Include="Plugins\PluginContext.cs" />
+    <Compile Include="Plugins\PluginCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\IProvider.cs" />
-    <Compile Include="Providers\ProvidersManager.cs" />
-    <Compile Include="Providers\Torrent\Ftdb\FtdbLoginHandshake.cs" />
-    <Compile Include="Providers\Torrent\Ftdb\FtdbProvider.cs" />
-    <Compile Include="Providers\Torrent\Ftdb\FtdbCustomMethods.cs" />
-    <Compile Include="Providers\Torrent\ITorrentProvider.cs" />
+    <Compile Include="Plugins\ProvidersManager.cs" />
     <Compile Include="Scrapers\Torrent\HtmlTorrentScraper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,7 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Browsers\Json\" />
-    <Folder Include="Providers\Newsgroup\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using CherryCouch.Common.Config;
 using CherryCouch.Common.Extensions;
-using CherryCouch.Core.Providers.Torrent;
+using CherryCouch.Common.Plugins;
+using CherryCouch.Common.Plugins.Providers;
+using CherryCouch.Common.Plugins.Providers.Torrent;
+using CherryCouch.Core.Plugins;
 using NLog;
 
 namespace CherryCouch.Core.Providers
 {
     public static class ProvidersManager
     {
+        private const string PluginTorrentFolder = "./plugins/providers/torrent/";
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static List<ITorrentProvider> torrentProviders = null; 
@@ -20,7 +26,7 @@ namespace CherryCouch.Core.Providers
         /// </summary>
         public static void Initialize()
         {
-            torrentProviders = LoadProviders<ITorrentProvider>();
+            torrentProviders = LoadProviders<ITorrentProvider>(PluginTorrentFolder);
         }
 
         public static ITorrentProvider[] GetTorrentProviders()
@@ -54,22 +60,31 @@ namespace CherryCouch.Core.Providers
         /// <summary>
         /// Loads instance of each providers that have the given interface.
         /// </summary>
-        private static List<I> LoadProviders<I>() where I : IProvider
+        private static List<I> LoadProviders<I>(string folderpath) where I : IProvider
         {
-            string interfaceName = typeof (I).Name.Substring(1);
+            string interfaceName = typeof(I).Name.Substring(1);
             Logger.Info("Loading {0}s...", interfaceName);
 
             var result = new List<I>();
-            var providerTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.HasInterface(typeof(I)));
 
-            foreach (var providerType in providerTypes)
+            if (!Directory.Exists(folderpath))
+                Directory.CreateDirectory(folderpath);
+
+            foreach (var dllFile in Directory.GetFiles(folderpath, "*.dll"))
             {
-                var instance = LoadInstance<I>(providerType);
+                var pluginAssembly = Assembly.LoadFile(Path.GetFullPath(dllFile));
 
-                if (instance != null)
+                var providerTypes = pluginAssembly.GetTypes().Where(t => t.HasInterface(typeof(I)));
+
+                foreach (var providerType in providerTypes)
                 {
-                    result.Add(instance);
-                    Logger.Info("\tProvider \"{0}\" loaded with success.", providerType.Name);
+                    var instance = LoadInstance<I>(providerType);
+
+                    if (instance != null)
+                    {
+                        result.Add(instance);
+                        Logger.Info("\tProvider \"{0}\" from \"{1}\" loaded with success.", providerType.Name, Path.GetFileName(dllFile));
+                    }
                 }
             }
 
@@ -83,8 +98,8 @@ namespace CherryCouch.Core.Providers
         /// </summary>
         private static I LoadInstance<I>(Type providerType) where I : IProvider
         {
-            var ctor = providerType.GetConstructor(new Type[0]);
-            var instance = ctor.Invoke(new object[0]);
+            var ctor = providerType.GetConstructor(new [] { typeof(IPluginContext) });
+            var instance = ctor.Invoke(new object[] { new PluginContext() });
 
             // Load configured properties
             var configFilename = GetProviderName(providerType);

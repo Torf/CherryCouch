@@ -9,16 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CherryCouch.Common", "Cherr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CherryCouch.Core", "CherryCouch.Core\CherryCouch.Core.csproj", "{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CherryCouch.Providers.Ftdb", "CherryCouch.Providers.Ftdb\CherryCouch.Providers.Ftdb.csproj", "{DA37D104-075F-4510-8980-56CA9E56BB8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D74D986-9D1E-4FA5-B6E3-A6E313FC5ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D74D986-9D1E-4FA5-B6E3-A6E313FC5ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D74D986-9D1E-4FA5-B6E3-A6E313FC5ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,10 +29,17 @@ Global
 		{D5B30ADB-1CAB-4305-ACE3-21998794FD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5B30ADB-1CAB-4305-ACE3-21998794FD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5B30ADB-1CAB-4305-ACE3-21998794FD94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEFE4E22-E3F7-416B-8A3D-DD729A626321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBAEB20-06B2-47B7-83A6-F6BC83FEC1DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA37D104-075F-4510-8980-56CA9E56BB8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA37D104-075F-4510-8980-56CA9E56BB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA37D104-075F-4510-8980-56CA9E56BB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA37D104-075F-4510-8980-56CA9E56BB8C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = CherryCouch\CherryCouch.csproj
@@ -38,8 +47,5 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
 		$1.ResourceNamePolicy = FileFormatDefault
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

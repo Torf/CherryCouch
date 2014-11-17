@@ -1,6 +1,6 @@
-﻿using CherryCouch.Common.Protocol.Request;
+﻿using CherryCouch.Common.Plugins.Providers.Torrent;
+using CherryCouch.Common.Protocol.Request;
 using CherryCouch.Core.Providers;
-using CherryCouch.Core.Providers.Torrent;
 
 namespace CherryCouch.Core.Handlers
 {

@@ -3,17 +3,15 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using CherryCouch.Core.Browsers.Html;
+using CherryCouch.Common.Plugins.Browsers.Html;
+using CherryCouch.Common.Plugins.Context;
+using CherryCouch.Common.Plugins.Scrapers.Torrent;
 using Newtonsoft.Json.Linq;
-using NLog;
 
-namespace CherryCouch.Core.Providers.Torrent.Ftdb
+namespace CherryCouch.Providers.Ftdb
 {
     public class FtdbLoginHandshake
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        private readonly HtmlBrowser browser;
         public string UrlStartHandshake { get; set; }
         public string UrlEndHandshake { get; set; }
 
@@ -21,9 +19,11 @@ namespace CherryCouch.Core.Providers.Torrent.Ftdb
         private string hash;
         private string decodedChallenge;
 
-        public FtdbLoginHandshake(HtmlBrowser browser)
+        private readonly IPluginCore<IHtmlBrowser, IHtmlTorrentScraper> core;
+
+        public FtdbLoginHandshake(IPluginCore<IHtmlBrowser, IHtmlTorrentScraper> core)
         {
-            this.browser = browser;
+            this.core = core;
         }
 
         public bool Execute(string username, string password)
@@ -38,7 +38,7 @@ namespace CherryCouch.Core.Providers.Torrent.Ftdb
 
         private void StartHandshake()
         {
-            string handshake = browser.GetRaw(UrlStartHandshake);
+            string handshake = core.Browser.GetRaw(UrlStartHandshake);
 
             // Read Json and get info
             var handshakeObj = JObject.Parse(handshake);
@@ -59,7 +59,7 @@ namespace CherryCouch.Core.Providers.Torrent.Ftdb
             data["hash"] = this.hash;
 
             // send request & get response
-            var response = browser.PostRaw(UrlEndHandshake, data);
+            var response = core.Browser.PostRaw(UrlEndHandshake, data);
 
             if (String.IsNullOrWhiteSpace(response)) // Invalid response, something gone wrong.
                 return false;
@@ -69,7 +69,7 @@ namespace CherryCouch.Core.Providers.Torrent.Ftdb
             var isSuccess = responseObj.GetValue("success").Value<bool>();
 
             if(!isSuccess)
-                Logger.Error("Can't log to ftdb provider : {0}", response);
+                core.CurrentContext.Log("Can't log to ftdb provider : {0}", response);
 
             return isSuccess;
         }

@@ -4,23 +4,23 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D5B30ADB-1CAB-4305-ACE3-21998794FD94}</ProjectGuid>
+    <ProjectGuid>{DA37D104-075F-4510-8980-56CA9E56BB8C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CherryCouch.Common</RootNamespace>
-    <AssemblyName>CherryCouch.Common</AssemblyName>
+    <RootNamespace>CherryCouch.Providers.Ftdb</RootNamespace>
+    <AssemblyName>CherryCouch.Providers.Ftdb</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <UseMSBuildEngine>False</UseMSBuildEngine>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\CherryCouch\bin\Debug\plugins\providers\torrent\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,44 +33,27 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Config.cs" />
-    <Compile Include="Config\ConfigNode.cs" />
-    <Compile Include="Config\ConfigurableAttribute.cs" />
-    <Compile Include="Config\ConfigVariable.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Plugins\Browsers\Html\IHtmlBrowser.cs" />
-    <Compile Include="Plugins\Browsers\IBrowser.cs" />
-    <Compile Include="Plugins\Context\IPluginCore.cs" />
-    <Compile Include="Plugins\IGlobal.cs" />
-    <Compile Include="Plugins\IPluginContext.cs" />
-    <Compile Include="Plugins\Providers\IProvider.cs" />
-    <Compile Include="Plugins\Providers\Torrent\ITorrentProvider.cs" />
-    <Compile Include="Plugins\Scrapers\IScraper.cs" />
-    <Compile Include="Plugins\Scrapers\IScrapingRule.cs" />
-    <Compile Include="Plugins\Scrapers\ScrapingConverterEnum.cs" />
-    <Compile Include="Plugins\Scrapers\ScrapingRule.cs" />
-    <Compile Include="Plugins\Scrapers\Torrent\IHtmlTorrentScraper.cs" />
+    <Compile Include="FtdbLoginHandshake.cs" />
+    <Compile Include="FtdbProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Protocol\Api\ErrorResult.cs" />
-    <Compile Include="Protocol\Api\ListResult.cs" />
-    <Compile Include="Protocol\Request\IDownloadRequest.cs" />
-    <Compile Include="Protocol\Request\IRequestAuthorization.cs" />
-    <Compile Include="Protocol\Request\ISearchMovieRequest.cs" />
-    <Compile Include="Protocol\Search\ISearchResult.cs" />
-    <Compile Include="Protocol\Search\SearchTypeEnum.cs" />
-    <Compile Include="Protocol\Search\TorrentResult.cs" />
-    <Compile Include="Utils\Converter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CherryCouch.Common\CherryCouch.Common.csproj">
+      <Project>{d5b30adb-1cab-4305-ace3-21998794fd94}</Project>
+      <Name>CherryCouch.Common</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

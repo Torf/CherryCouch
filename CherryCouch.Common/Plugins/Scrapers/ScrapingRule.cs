@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
+using CherryCouch.Common.Plugins.Providers;
 using CherryCouch.Common.Utils;
 
-namespace CherryCouch.Common.Protocol.Scraper
+namespace CherryCouch.Common.Plugins.Scrapers
 {
     [Serializable]
-    public class ScrapingRule
+    public class ScrapingRule : IScrapingRule
     {
         /// <summary>
         /// Associated property of result
@@ -53,9 +52,10 @@ namespace CherryCouch.Common.Protocol.Scraper
         /// <summary>
         /// Retrieves the value from the node
         /// </summary>
+        /// <param name="currentProvider">Current provider</param>
         /// <param name="node">XmlNode to examine</param>
         /// <returns>value retrieved</returns>
-        public object GetValue(XmlNode node)
+        public object GetValue(IProvider currentProvider, XmlNode node)
         {
             if (XPath == null)
                 throw new ApplicationException();
@@ -100,21 +100,13 @@ namespace CherryCouch.Common.Protocol.Scraper
                         value = Convert.ToInt32(value);
                         break;
                     case ScrapingConverterEnum.CustomMethod:
-                        var parameters = ConverterParameter.Split('.');
-                        if(parameters.Length != 2)
-                            throw new InvalidOperationException("incorrect customMethod converter parameter.");
+                        var type = currentProvider.GetType();
 
-                        var assembly = Assembly.GetCallingAssembly();
-
-                        var type = assembly.GetTypes().FirstOrDefault(t => t.Name == parameters[0]);
-                        if(type == null)
-                            throw new InvalidOperationException(String.Format("incorrect customMethod converter parameter (class {0} not found).", parameters[0]));
-
-                        var method = type.GetMethod(parameters[1]);
+                        var method = type.GetMethod(ConverterParameter);
                         if (method == null)
-                            throw new InvalidOperationException(String.Format("incorrect customMethod converter parameter (method {0} not found).", ConverterParameter));
+                            throw new InvalidOperationException(String.Format("incorrect customMethod converter parameter (method {0} not found in {1}).", ConverterParameter, type.FullName));
 
-                        value = method.Invoke(null, new[] {value});
+                        value = method.Invoke(currentProvider, new[] {value});
 
                         break;
                 }

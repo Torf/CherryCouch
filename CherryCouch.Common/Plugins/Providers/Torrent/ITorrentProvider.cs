@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CherryCouch.Core.Providers.Torrent
+namespace CherryCouch.Common.Plugins.Providers.Torrent
 {
     public interface ITorrentProvider : IProvider
     {

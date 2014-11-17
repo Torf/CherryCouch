@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
 using CherryCouch.Common.Protocol.Search;
 
-namespace CherryCouch.Core.Providers
+namespace CherryCouch.Common.Plugins.Providers
 {
     public interface IProvider
     {
+        /// <summary>
+        /// Gets the name of the provider.
+        /// </summary>
+        string Name { get; }
+
         /// <summary>
         /// Indicates if we're connected
         /// </summary>

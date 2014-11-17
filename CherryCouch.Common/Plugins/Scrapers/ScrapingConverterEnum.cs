@@ -1,4 +1,4 @@
-﻿namespace CherryCouch.Common.Protocol.Scraper
+﻿namespace CherryCouch.Common.Plugins.Scrapers
 {
     public enum ScrapingConverterEnum
     {

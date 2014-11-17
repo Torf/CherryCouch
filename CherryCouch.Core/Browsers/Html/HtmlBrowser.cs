@@ -3,13 +3,14 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 using System.Xml;
+using CherryCouch.Common.Plugins.Browsers.Html;
 using Sgml;
 
 namespace CherryCouch.Core.Browsers.Html
 {
-    public class HtmlBrowser
+    public class HtmlBrowser : IHtmlBrowser
     {
-        private readonly CookieAwareWebClient webClient;
+        private CookieAwareWebClient webClient;
 
         public HtmlBrowser()
         {
@@ -98,6 +99,20 @@ namespace CherryCouch.Core.Browsers.Html
             doc.Load(sgmlReader);
 
             return doc;
+        }
+
+        /// <summary>
+        /// Clears the current session, removing cookies and cache.
+        /// </summary>
+        public void ClearSession()
+        {
+            if (webClient != null)
+            {
+                webClient.Dispose();
+                webClient = null;
+            }
+
+            webClient = new CookieAwareWebClient();
         }
     }
 }
